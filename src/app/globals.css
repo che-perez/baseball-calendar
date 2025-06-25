@@ -24,3 +24,13 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.pinstripe {
+  background: repeating-linear-gradient(
+  to right,
+  #FF5910,
+  #FF5910  2px,
+  #FFFFFF 2px,
+  #FFFFFF 25px
+) ;
+}
