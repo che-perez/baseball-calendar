@@ -2,7 +2,7 @@
  
 import { useState } from 'react'
  
-export default function SeriesList(gamesList) {
+export default function SeriesList({ seriesList }) {
     const [totalSeries, setTotalSeries] = useState(1);
     const [seriesComplete, setSeriesComplete] = useState(false);
     const [currentSeriesGame, setCurrentSeriesGame] = useState(1);
@@ -17,8 +17,8 @@ export default function SeriesList(gamesList) {
  
   return (
     <ul>
-    {gamesList.gamesList.dates.map((g) => (
-        <li key={g.games.gamePK}>
+    {seriesList.dates.map((g, idx) => (
+        <li key={idx}>
             <span>{convertDate(g.date)}</span>
             <span>{g.games[0].teams.away.team.abbreviation}-{g.games[0].teams.away.score}</span>
             /<span>{g.games[0].teams.home.team.abbreviation}-{g.games[0].teams.home.score}</span>
