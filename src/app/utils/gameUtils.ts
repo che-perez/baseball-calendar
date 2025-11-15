@@ -71,3 +71,10 @@ export function groupGameBySeries(seriesData: SeriesData | null): Series[] {
 
     return seriesGroups;
 }
+
+    export function convertDate(date: string | number | Date) {
+    date = Date.parse(`${date}T00:00:00.000`);
+    const newDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' });
+
+    return newDate.format(date);
+};

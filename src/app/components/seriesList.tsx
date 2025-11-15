@@ -1,30 +1,57 @@
 'use client'
  
 import { useState } from 'react'
- 
-export default function SeriesList({ seriesList }) {
+import { groupGameBySeries } from '../utils/gameUtils';
+
+import SeriesBox from './SeriesBox';
+
+interface Game {
+  gamePk: number;
+  gameDate: string;
+  teams: {
+    home: TeamData;
+    away: TeamData;
+  };
+  venue?: {
+    name: string;
+  };
+}
+
+interface TeamData {
+  team: {
+    id: number;
+    name: string;
+    abbreviation: string;
+  };
+  score?: number;
+}
+
+interface SeriesData {
+  dates?: Array<{
+    games: Game[];
+  }>
+}
+
+interface SeriesListProps {
+  seriesList: SeriesData | null;
+}
+
+export default function SeriesList({ seriesList }: SeriesListProps): JSX.Element | null {
     const [totalSeries, setTotalSeries] = useState(1);
     const [seriesComplete, setSeriesComplete] = useState(false);
     const [currentSeriesGame, setCurrentSeriesGame] = useState(1);
     const [home, setHome] = useState(true);
 
-    const convertDate = (date: string | number | Date) => {
-        date = Date.parse(`${date}T00:00:00.000`);
-        const newDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' });
-
-        return newDate.format(date);
-    };
+    const seriesArr = groupGameBySeries(seriesList);
  
   return (
-    <ul>
-    {seriesList.dates.map((g, idx) => (
-        <li key={idx}>
-            <span>{convertDate(g.date)}</span>
-            <span>{g.games[0].teams.away.team.abbreviation}-{g.games[0].teams.away.score}</span>
-            /<span>{g.games[0].teams.home.team.abbreviation}-{g.games[0].teams.home.score}</span>
-        </li>
-    ))}
-    </ul>
-    // <>{console.log(gamesList)}</>
+    <>
+    {console.log("Game Series by Group", groupGameBySeries(seriesList))}
+      <ul>
+      {seriesArr.map((series, idx) => (
+        <SeriesBox series={series} key={idx} />
+      ))}
+      </ul>
+    </>
   )
 }
