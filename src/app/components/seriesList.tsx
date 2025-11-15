@@ -47,7 +47,7 @@ export default function SeriesList({ seriesList }: SeriesListProps): JSX.Element
   return (
     <>
     {console.log("Game Series by Group", groupGameBySeries(seriesList))}
-      <ul>
+      <ul className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
       {seriesArr.map((series, idx) => (
         <SeriesBox series={series} key={idx} />
       ))}

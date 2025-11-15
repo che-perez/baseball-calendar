@@ -1,5 +1,31 @@
 import { convertDate } from "../utils/gameUtils";
 
+interface Game {
+    gamePk: number;
+    officialDate: string;
+    teams: {
+        home: TeamData;
+        away: TeamData;
+    };
+}
+
+interface TeamData {
+    team: {
+        id: number;
+        name: string;
+        abbreviation: string;
+    };
+    score?: number;
+}
+
+interface Series {
+    opponent: string;
+    opponentAbbr: string;
+    opponentId: number;
+    isHome: boolean;
+    games: Game[];
+}
+
 interface SeriesBoxProps {
     series: Series;
 }
@@ -7,15 +33,50 @@ interface SeriesBoxProps {
 export default function SeriesBox({ series }: SeriesBoxProps): JSX.Element {
 
     return (
-        <li>
-            <span>{series.isHome ? "VS." : "@"} {series.opponent}</span>
-            {series.games.map((game, idx) => (
-                <div key={game.gamePk}>
-                <span>{convertDate(game.officialDate)}</span>/
-                <span>{game.teams.away.team.abbreviation}-{game.teams.away.score}</span> / 
-                <span>{game.teams.home.team.abbreviation}-{game.teams.home.score}</span>
+        <li className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+            <div className="bg-[#003D82] text-white px-4 py-3 boder-b-4 border-black">
+                <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <div className="flex-1 min-w-0">
+                            <div className="tex-xl font-black tracking-tight truncate uppercase">
+                                <span>{series.isHome ? "vs" : "@"} {series.opponent}</span>
+                            </div>
+                            <div className="text-xs font-bold opacity-90 truncate uppercase">
+                                <span>Venue Name</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div className="p-4 bg-[#FDB462]">
+                <div className="flex gap-2 flex-wrap">
+                    {series.games.map((game) => (
+                        <div key={game.gamePk} className="bg-white border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                            <div className="bg-black text-white px-2 py-1 border-b-3 border-black text-center">
+                                <span className="text-[10px] font-black uppercase">{convertDate(game.officialDate)}</span>
+                            </div>
+                            <div className="min-w-[140px] bg-white">
+                                <div className="flex items-center justify-between px-2 py-2 border-b-3 border-black">
+                                    <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                                        <span className="text-xs font-black text-black">{game.teams.away.team.abbreviation}</span>
+                                    </div>
+                                    <div className="text-base font-black text-black ml-2">
+                                        <span>{game.teams.away.score}</span>
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-between px-2 py-2">
+                                    <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                                        <span className="text-xs font-black text-black">{game.teams.home.team.abbreviation}</span>
+                                    </div>
+                                    <div className="text-base font-black text-black ml-2">
+                                        <span>{game.teams.home.score}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
             ))}
+                </div>
+            </div>
         </li>
     )
 }
