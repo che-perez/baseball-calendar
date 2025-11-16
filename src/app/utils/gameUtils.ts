@@ -3,6 +3,16 @@ interface Game {
         home: TeamData;
         away: TeamData;
     };
+    status: {
+        statusCode?: string;
+        abstractGameState?: string;
+        detailedState?: string;
+    }
+    venue?: Venue;
+}
+
+interface Venue {
+    name: string;
 }
 
 interface TeamData {
@@ -26,6 +36,7 @@ interface Series {
     opponentId: number;
     isHome: boolean;
     games: Game[];
+    venue?: Venue;
 }
 
 export const MLB_TEAM_IDS = {
@@ -59,7 +70,8 @@ export function groupGameBySeries(seriesData: SeriesData | null): Series[] {
                     oppnentAbbr: oppoTeam.team.abbreviation,
                     opponentId: oppoTeam.team.id,
                     isHome: isHome,
-                    games: []
+                    games: [],
+                    venue: game.venue
                 };
                 seriesGroups.push(currSeries);
             }

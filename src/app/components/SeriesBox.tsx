@@ -1,5 +1,7 @@
 import { convertDate } from "../utils/gameUtils";
 
+import TeamLogo from "./TeamLogo";
+
 interface Game {
     gamePk: number;
     officialDate: string;
@@ -24,6 +26,11 @@ interface Series {
     opponentId: number;
     isHome: boolean;
     games: Game[];
+    venue: Venue;
+}
+
+interface Venue {
+    name: string;
 }
 
 interface SeriesBoxProps {
@@ -37,12 +44,13 @@ export default function SeriesBox({ series }: SeriesBoxProps): JSX.Element {
             <div className="bg-[#003D82] text-white px-4 py-3 boder-b-4 border-black">
                 <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <TeamLogo teamId={series.opponentId} teamName={series.opponent} size="w-10 h-10" className="flex-shrink-0" />
                         <div className="flex-1 min-w-0">
                             <div className="tex-xl font-black tracking-tight truncate uppercase">
                                 <span>{series.isHome ? "vs" : "@"} {series.opponent}</span>
                             </div>
                             <div className="text-xs font-bold opacity-90 truncate uppercase">
-                                <span>Venue Name</span>
+                                <span>{series.venue.name}</span>
                             </div>
                         </div>
                     </div>
@@ -58,6 +66,7 @@ export default function SeriesBox({ series }: SeriesBoxProps): JSX.Element {
                             <div className="min-w-[140px] bg-white">
                                 <div className="flex items-center justify-between px-2 py-2 border-b-3 border-black">
                                     <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                                        <TeamLogo teamId={game.teams.away.team.id} teamName={game.teams.away.team.name} size="w-5 h5" />
                                         <span className="text-xs font-black text-black">{game.teams.away.team.abbreviation}</span>
                                     </div>
                                     <div className="text-base font-black text-black ml-2">
@@ -66,6 +75,7 @@ export default function SeriesBox({ series }: SeriesBoxProps): JSX.Element {
                                 </div>
                                 <div className="flex items-center justify-between px-2 py-2">
                                     <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                                        <TeamLogo teamId={game.teams.home.team.id} teamName={game.teams.home.team.name} size="w-5 h5" />
                                         <span className="text-xs font-black text-black">{game.teams.home.team.abbreviation}</span>
                                     </div>
                                     <div className="text-base font-black text-black ml-2">
