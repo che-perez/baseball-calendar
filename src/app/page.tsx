@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
+import { fetchMlbSeriesData } from "./utils/mlbAPI";
 import SeriesList from "./components/seriesList";
 
 
@@ -22,9 +23,7 @@ export default function Home(): JSX.Element {
 
   const fetchSeriesData = async (): Promise<void> => {
     try {
-      const response = await fetch('https://statsapi.mlb.com/api/v1/schedule?hydrate=team,lineups&sportId=1&startDate=2025-03-27&endDate=2025-09-28&teamId=121');
-
-      const data: SeriesData = await response.json();
+      const data: SeriesData = await fetchMlbSeriesData();
       setSeriesData(data);
       setIsLoading(false);
 

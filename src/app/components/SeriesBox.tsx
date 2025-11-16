@@ -40,8 +40,10 @@ interface SeriesBoxProps {
 export default function SeriesBox({ series }: SeriesBoxProps): JSX.Element {
 
     return (
+        // Series Box
         <li className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-            <div className="bg-[#003D82] text-white px-4 py-3 boder-b-4 border-black">
+            {/* Series Box Header */}
+            <div className="bg-[#003D82] text-white px-4 py-3 border-b-4 border-black">
                 <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
                         <TeamLogo teamId={series.opponentId} teamName={series.opponent} size="w-10 h-10" className="flex-shrink-0" />
@@ -56,6 +58,7 @@ export default function SeriesBox({ series }: SeriesBoxProps): JSX.Element {
                     </div>
                 </div>
             </div>
+            {/* Series Game Score Box */}
             <div className="p-4 bg-[#FDB462]">
                 <div className="flex gap-2 flex-wrap">
                     {series.games.map((game) => (
