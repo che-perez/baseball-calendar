@@ -45,7 +45,7 @@ interface StandingsData {
             id: number;
             name: string;
         }
-        teamRecods: Array<{
+        teamRecords: Array<{
             team: {
                 id: number;
                 name: string;

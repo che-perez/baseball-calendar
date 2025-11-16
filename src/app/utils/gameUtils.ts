@@ -43,6 +43,14 @@ export const MLB_TEAM_IDS = {
     METS: 121
 } as const;
 
+export const MLB_DIVISION_IDS = {
+  NL_EAST: 204,
+} as const;
+
+export const MLB_LEAGUE_IDS = {
+  NATIONAL_LEAGUE: 104,
+} as const;
+
 export function isMetsHomeTeam(game: Game): boolean {
     return game.teams.home.team.id === MLB_TEAM_IDS.METS;
 }

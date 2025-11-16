@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 
 import { fetchMlbSeriesData } from "./utils/mlbAPI";
 import SeriesList from "./components/seriesList";
+import StatsPanel from "./components/StatsPanel";
 
 
 interface SeriesData {
@@ -49,9 +50,12 @@ export default function Home(): JSX.Element {
 
           </header>
           <main className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div className="grid lg-grid-cols-[1fr_400px] gap-8">
+            <div className="grid lg:grid-cols-[1fr_400px] gap-8">
               <div className="space-y-8">
                 <SeriesList seriesList={seriesData} />
+              </div>
+              <div className="lg:top-8 lg:self-start space-y-8 lg:max-h-[clac(100vh-6rem)]">
+                <StatsPanel seriesData={seriesData}/>
               </div>
             </div>
           </main>
