@@ -52,6 +52,8 @@ interface StandingsData {
             };
             wins: number;
             losses: number;
+            winningPercentage: string;
+            gamesBack: string;
         }>;
     }>;
 }

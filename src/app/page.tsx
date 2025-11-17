@@ -1,15 +1,19 @@
 "use client"
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, JSX } from "react";
 
 import { fetchMlbSeriesData } from "./utils/mlbAPI";
 import SeriesList from "./components/seriesList";
 import StatsPanel from "./components/StatsPanel";
 
+import TeamLogo from "./components/TeamLogo";
+
+import { MLB_TEAM_IDS } from "./utils/gameUtils";
+
 
 interface SeriesData {
   data: Array<{
-    games: Array<any>
+    games: Array<never>
   }>;
 }
 export default function Home(): JSX.Element {
@@ -33,7 +37,18 @@ export default function Home(): JSX.Element {
       setIsLoading(false);
     }
   }
-  if(!isLoading) {
+
+  if(isLoading) {
+    return (
+      <div className="min-h-screen bg-[#F97316] flex items-center justify-center">
+        <div className="text-center bg-white border-4 border-black p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+          <TeamLogo teamId={MLB_TEAM_IDS.METS} teamName="Mets" size="w-16 h-16" className="animate-spin mx-auto mb-4" />
+          <p className="text-black font-black text-2xl uppercase">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
     return (
       <>
         <div className="min-h-screen bg-[#FDB462]">
@@ -55,7 +70,7 @@ export default function Home(): JSX.Element {
                 <SeriesList seriesList={seriesData} />
               </div>
               <div className="lg:top-8 lg:self-start space-y-8 lg:max-h-[clac(100vh-6rem)]">
-                <StatsPanel seriesData={seriesData}/>
+                <StatsPanel />
               </div>
             </div>
           </main>
@@ -63,4 +78,3 @@ export default function Home(): JSX.Element {
       </>
     );
   }
-}

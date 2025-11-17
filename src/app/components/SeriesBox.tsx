@@ -41,7 +41,7 @@ export default function SeriesBox({ series }: SeriesBoxProps): JSX.Element {
 
     return (
         // Series Box
-        <li className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        <li className="border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             {/* Series Box Header */}
             <div className="bg-[#003D82] text-white px-4 py-3 border-b-4 border-black">
                 <div className="flex items-start justify-between gap-3">

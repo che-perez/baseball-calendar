@@ -8,6 +8,8 @@ interface TeamRecord {
     };
     wins: number;
     losses: number;
+    winningPercentage: string;
+    gamesBack: string;
 }
 
 interface DivisionRecord {
