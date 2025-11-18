@@ -10,6 +10,7 @@ interface TeamRecord {
     losses: number;
     winningPercentage: string;
     gamesBack: string;
+    leagueRank?: string;
 }
 
 interface DivisionRecord {
@@ -41,11 +42,25 @@ export function useMLBStandings(leagueId: number, divisionId: number | null = nu
             const data = await fetchMLBStandings(leagueId, season);
 
             if(data.records && data.records.length > 0) {
+                // Return Division Standings Array
                 if(divisionId) {
                     const division = data.records.find(div => div.division?.id === divisionId);
                     setStandings(division?.teamRecords || []);
+                  // Return National League Standings Array  
                 } else {
-                    setStandings(data.records);
+                    const teams: TeamRecord[] = [];
+                    (data.records as DivisionRecord[]).forEach(div => {
+                        div.teamRecords.forEach(team => {
+                            teams.push(team);
+                        });
+                    });
+
+                    teams.sort((a,b) => {
+                        const rankA = a.leagueRank ? parseInt(a.leagueRank) : 999;
+                        const rankB = b.leagueRank ? parseInt(b.leagueRank) : 999;
+                        return rankA - rankB;
+                    })
+                    setStandings(teams);
                 }
             }
             setIsLoading(false);
