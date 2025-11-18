@@ -3,7 +3,7 @@
 import React, { useState, useEffect, JSX } from "react";
 
 import { fetchMlbSeriesData } from "./utils/mlbAPI";
-import SeriesList from "./components/seriesList";
+import SeriesList from "./components/SeriesList";
 import StatsPanel from "./components/StatsPanel";
 
 import TeamLogo from "./components/TeamLogo";
@@ -38,12 +38,14 @@ export default function Home(): JSX.Element {
     }
   }
 
-  if(isLoading) {
+  if(isLoading || error) {
     return (
       <div className="min-h-screen bg-[#F97316] flex items-center justify-center">
         <div className="text-center bg-white border-4 border-black p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+          {isLoading ? <>
           <TeamLogo teamId={MLB_TEAM_IDS.METS} teamName="Mets" size="w-16 h-16" className="animate-spin mx-auto mb-4" />
-          <p className="text-black font-black text-2xl uppercase">Loading...</p>
+          <p className="text-black font-black text-2xl uppercase">Loading...</p> </> : <></> }
+          {error ? <p className="text-black font-black text-2xl uppercase">Error: {error}</p> : <></> }
         </div>
       </div>
     )

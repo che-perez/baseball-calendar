@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 import { convertDate } from "../utils/gameUtils";
 
 import TeamLogo from "./TeamLogo";

@@ -1,6 +1,6 @@
 'use client'
  
-import { useState } from 'react'
+import React, { JSX } from 'react'
 import { groupGameBySeries } from '../utils/gameUtils';
 
 import SeriesBox from './SeriesBox';
@@ -37,11 +37,6 @@ interface SeriesListProps {
 }
 
 export default function SeriesList({ seriesList }: SeriesListProps): JSX.Element | null {
-    const [totalSeries, setTotalSeries] = useState(1);
-    const [seriesComplete, setSeriesComplete] = useState(false);
-    const [currentSeriesGame, setCurrentSeriesGame] = useState(1);
-    const [home, setHome] = useState(true);
-
     const seriesArr = groupGameBySeries(seriesList);
  
   return (

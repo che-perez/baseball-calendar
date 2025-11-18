@@ -7,7 +7,7 @@ import DivisionStandings from "./DivisionStanding";
 
 export default function StatsPanel(): JSX.Element | null {
     const {standings: nlEastStandings, isLoading} = useMLBStandings(MLB_LEAGUE_IDS.NATIONAL_LEAGUE, MLB_DIVISION_IDS.NL_EAST, 2025);
-    const {standings: nlStandings, isLoading: leagueLoading} = useMLBStandings(MLB_LEAGUE_IDS.NATIONAL_LEAGUE, null, 2025);
+    const {standings: nlStandings } = useMLBStandings(MLB_LEAGUE_IDS.NATIONAL_LEAGUE, null, 2025);
 
     const [showAll, setShowAll] = useState<boolean>(false);
 
@@ -86,10 +86,10 @@ export default function StatsPanel(): JSX.Element | null {
                                 <DivisionStandings teamRecord={nlStandings[teamIndex]} />
                             </>
                         )}
-                        {!showAll && nlStandings.length > 6 && (
-                            <button onClick={() => setShowAll(true)} className="w-full mt-4 bg-[#003D82] hover:bg-[#F97316] text-white font-black text-sm uppercase border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all">
-                                Load More</button>
-                        )}
+
+                            <button type="button" onClick={() => !showAll ? setShowAll(true) : setShowAll(false) } className="w-full p-2 mt-4 bg-[#003D82] hover:bg-[#F97316] text-white font-black text-sm uppercase border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all">
+                                {!showAll ? "Load More" : "Hide"}</button>
+
                     </div>
                 </div>
             </div>
