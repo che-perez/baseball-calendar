@@ -36,14 +36,24 @@ export const MLB_LEAGUE_IDS: Record<string, number> = {
   NATIONAL_LEAGUE: 104,
 };
 
-export const MLB_DIVISION_IDS: Record<string, number> = {
-  AL_EAST: 200,
-  AL_CENTRAL: 202,
-  AL_WEST: 200,
-  NL_EAST: 204,
-  NL_CENTRAL: 205,
-  NL_WEST: 203,
+interface LeagueDivisionName {
+  name: string;
+}
+
+export const MLB_LEAGUE_DIVISION_NAMES: Record<number, LeagueDivisionName> = {
+  201: { name: "AL East" },
+  202: { name: "AL Central" },
+  200: { name: "AL West" },
+  204: { name: "NL East" },
+  205: { name: "NL Central" },
+  203: { name: "NL West" },
+  103: { name: "American League" },
+  104: { name: "National League" }
 };
+
+export function getLeagueDivisionName(divisionId: number): LeagueDivisionName {
+  return MLB_LEAGUE_DIVISION_NAMES[divisionId];
+}
 
 interface TeamColor {
   primary: string;

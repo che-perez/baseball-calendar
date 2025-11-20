@@ -1,6 +1,6 @@
 import { JSX } from "react";
-import { MLB_TEAM_IDS } from "../utils/gameUtils";
 import TeamLogo from "./TeamLogo";
+import { getTeamColors } from "../utils/mlbTeams";
 
 interface TeamRecord {
     team: {
@@ -17,15 +17,18 @@ interface TeamRecord {
 interface DivisionStandingsProps {
     teamRecord: TeamRecord;
     isDivision: boolean;
+    teamID: number;
 }
 
 
-export default function DivisionStandings({ teamRecord, isDivision }: DivisionStandingsProps): JSX.Element {
+export default function DivisionStandings({ teamRecord, isDivision, teamID }: DivisionStandingsProps): JSX.Element {
 
+    const teamColors = getTeamColors(teamID);
+    const color = teamRecord.team.id === teamID ? teamColors.secondary : null;
     return (
         <div className={`flex items-center justify-between py-3 px-2 transition-all 
-            ${teamRecord.team.id === MLB_TEAM_IDS.METS ? 'bg-[#003D82] text-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
-                                                    : 'hover:bg-[#FDB462] border-2 border-transparent hover:border-black'}`}>
+            ${teamRecord.team.id === teamID ? 'text-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
+                                                    : 'hover:bg-[#FDB462] border-2 border-transparent hover:border-black'}`} style={{ backgroundColor: color }}>
             <div className="flex items-center gap-2 min-w-[120px]">
                 {!isDivision ? <div className="w-8 text-base font-black">{teamRecord.leagueRank}</div> : <></> }
                 <TeamLogo teamId={teamRecord.team.id} teamName={teamRecord.team.name} size="w-6 h-6" />

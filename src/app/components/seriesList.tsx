@@ -34,17 +34,18 @@ interface SeriesData {
 
 interface SeriesListProps {
   seriesList: SeriesData | null;
+  teamId: number
 }
 
-export default function SeriesList({ seriesList }: SeriesListProps): JSX.Element | null {
-    const seriesArr = groupGameBySeries(seriesList);
+export default function SeriesList({ seriesList, teamId }: SeriesListProps): JSX.Element | null {
+    const seriesArr = groupGameBySeries(seriesList, teamId);
  
   return (
     <>
-    {console.log("Game Series by Group", groupGameBySeries(seriesList))}
+    {console.log("Game Series by Group", groupGameBySeries(seriesList, teamId))}
       <ul className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
       {seriesArr.map((series, idx) => (
-        <SeriesBox series={series} key={idx} />
+        <SeriesBox series={series} key={idx} teamID={teamId}/>
       ))}
       </ul>
     </>

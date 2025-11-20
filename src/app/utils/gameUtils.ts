@@ -39,27 +39,15 @@ interface Series {
     venue?: Venue;
 }
 
-export const MLB_TEAM_IDS = {
-    METS: 121
-} as const;
-
-export const MLB_DIVISION_IDS = {
-  NL_EAST: 204,
-} as const;
-
-export const MLB_LEAGUE_IDS = {
-  NATIONAL_LEAGUE: 104,
-} as const;
-
-export function isMetsHomeTeam(game: Game): boolean {
-    return game.teams.home.team.id === MLB_TEAM_IDS.METS;
+export function isCurrTeamHomeTeam(game: Game, teamId: number): boolean {
+    return game.teams.home.team.id === teamId;
 }
 
-export function getOppoTeamFromGame(game: Game): TeamData {
-    return game.teams.away.team.id === MLB_TEAM_IDS.METS ? game.teams.home : game.teams.away;
+export function getOppoTeamFromGame(game: Game, teamId: number): TeamData {
+    return game.teams.away.team.id === teamId ? game.teams.home : game.teams.away;
 }
 
-export function groupGameBySeries(seriesData: SeriesData | null): Series[] {
+export function groupGameBySeries(seriesData: SeriesData | null, teamId: number): Series[] {
     if(!seriesData?.dates) {
         return [];
     }
@@ -69,8 +57,8 @@ export function groupGameBySeries(seriesData: SeriesData | null): Series[] {
 
     seriesData.dates.forEach(date => {
         date.games.forEach(game => {
-            const oppoTeam = getOppoTeamFromGame(game);
-            const isHome = isMetsHomeTeam(game);
+            const oppoTeam = getOppoTeamFromGame(game, teamId);
+            const isHome = isCurrTeamHomeTeam(game, teamId);
 
             if(!currSeries || currSeries.opponent !== oppoTeam.team.name || currSeries.isHome !== isHome) {
                 currSeries = {
@@ -91,6 +79,8 @@ export function groupGameBySeries(seriesData: SeriesData | null): Series[] {
 
     return seriesGroups;
 }
+
+export const currentYear = new Date().getFullYear();
 
     export function convertDate(date: string | number | Date) {
     date = Date.parse(`${date}T00:00:00.000`);

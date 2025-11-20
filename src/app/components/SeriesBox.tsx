@@ -1,7 +1,7 @@
 import { JSX } from "react";
 
 import { convertDate } from "../utils/gameUtils";
-
+import { getTeamColors } from "../utils/mlbTeams";
 import TeamLogo from "./TeamLogo";
 
 interface Game {
@@ -37,15 +37,17 @@ interface Venue {
 
 interface SeriesBoxProps {
     series: Series;
+    teamID: number;
 }
 
-export default function SeriesBox({ series }: SeriesBoxProps): JSX.Element {
+export default function SeriesBox({ series, teamID }: SeriesBoxProps): JSX.Element {
+    const teamColors = getTeamColors(teamID);
 
     return (
         // Series Box
         <li className="border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             {/* Series Box Header */}
-            <div className="bg-[#003D82] text-white px-4 py-3 border-b-4 border-black">
+            <div className="text-white px-4 py-3 border-b-4 border-black" style={{ backgroundColor: teamColors.primary }}>
                 <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
                         <TeamLogo teamId={series.opponentId} teamName={series.opponent} size="w-10 h-10" className="flex-shrink-0" />

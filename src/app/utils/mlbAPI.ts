@@ -59,8 +59,8 @@ interface StandingsData {
 }
 
 // Fetch Series Data by Season and filter by Regular season games only
-export async function fetchMlbSeriesData(season: number = 2025): Promise<SeriesData> {
-    const response = await fetch(`${MLB_API_BASE}/schedule?hydrate=team,linescore&sportId=1&season=${season}&teamId=121`);
+export async function fetchMlbSeriesData(season: number = 2025, teamId: number): Promise<SeriesData> {
+    const response = await fetch(`${MLB_API_BASE}/schedule?hydrate=team,linescore&sportId=1&season=${season}&teamId=${teamId}`);
 
     if(!response.ok) {
         throw new Error(`Failed to fetch data: ${response.statusText}`);
