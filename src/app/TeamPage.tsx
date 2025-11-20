@@ -27,14 +27,16 @@ export default function Home(): JSX.Element {
   const [ divisionId, setDivisionId ] = useState<number | null>(null);
   const [ leagueId, setLeagueId ] = useState<number | null>(null);
   const [ teamName, setTeamName ] = useState<string | null>(null);
+  const [ firstSeason, setFirstSeason ] = useState<number>(currentYear - 1);
+  const [ selectedSeason, setSelectedSeason ] = useState<number>(currentYear);
 
   useEffect(() => {
     fetchSeriesData();
-  }, [currentYear, id]);
+  }, [selectedSeason, id]);
 
   const fetchSeriesData = async (): Promise<void> => {
     try {
-      const data: SeriesData = await fetchMlbSeriesData(currentYear, teamID);
+      const data: SeriesData = await fetchMlbSeriesData(selectedSeason, teamID);
       setSeriesData(data);
 
       if(data.dates && data.dates.length > 0 && data.dates[0].games.length > 0) {
@@ -44,9 +46,7 @@ export default function Home(): JSX.Element {
         setTeamName(team.name);
         setDivisionId(team.division.id);
         setLeagueId(team.league.id);
-
-        console.log('Game', game);
-        console.log('Team', team);
+        setFirstSeason(team.firstYearOfPlay);
       }
 
 
@@ -56,6 +56,12 @@ export default function Home(): JSX.Element {
       setError((err as Error).message);
       setIsLoading(false);
     }
+  }
+
+  const seasons = Array.from({ length: currentYear - 1998 + 1}, (_, i) => currentYear - i);
+
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedSeason(parseInt(event.target.value));
   }
 
   if(isLoading || error) {
@@ -82,6 +88,13 @@ export default function Home(): JSX.Element {
                     <h1 className="text-6xl sm-text-7xl font-black text-white uppercase tracking-tighter">{teamName}</h1>
                   </div>
                 </div>
+                <select value={selectedSeason} onChange={handleChange} className="w-36 bg-white border-4 border-black text-3xl font-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]">
+                  <div className="bg-white border-4 border-black max-h-[400px] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                    {seasons.map((season) => (
+                      <option key={season} value={season} className="text-xl font-black cursor-pointer">{season}</option>
+                    ))}
+                  </div>
+                </select>
               </div>
             </div>
 
@@ -92,7 +105,7 @@ export default function Home(): JSX.Element {
                 <SeriesList seriesList={seriesData} teamId={teamID} />
               </div>
               <div className="lg:top-8 lg:self-start space-y-8 lg:max-h-[clac(100vh-6rem)]">
-                <StatsPanel teamID={teamID} divisionId={divisionId} leagueId={leagueId}/>
+                <StatsPanel teamID={teamID} divisionId={divisionId} leagueId={leagueId} selectedSeason={selectedSeason}/>
               </div>
             </div>
           </main>

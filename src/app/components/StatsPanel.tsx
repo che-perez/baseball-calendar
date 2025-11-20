@@ -9,20 +9,18 @@ interface StatsPanelProps {
     teamID: number;
     divisionId: number;
     leagueId: number;
+    selectedSeason: number;
 }
 
 
-export default function StatsPanel({ teamID, divisionId, leagueId }:StatsPanelProps): JSX.Element | null {
-    const {standings: divisionStandings, isLoading} = useMLBStandings(leagueId, divisionId, 2025);
-    const {standings: leagueStandings } = useMLBStandings(leagueId, null, 2025);
+export default function StatsPanel({ teamID, divisionId, leagueId, selectedSeason }:StatsPanelProps): JSX.Element | null {
+    const {standings: divisionStandings, isLoading} = useMLBStandings(leagueId, divisionId, selectedSeason);
+    const {standings: leagueStandings } = useMLBStandings(leagueId, null, selectedSeason);
     const leagueName = getLeagueDivisionName(leagueId);
     const divisionName = getLeagueDivisionName(divisionId);
     const teamColors = getTeamColors(teamID);
 
     const [showAll, setShowAll] = useState<boolean>(false);
-
-    console.log('Division Standings', divisionStandings);
-    console.log('League Standings', leagueStandings);
 
     const teamIndex = leagueStandings.findIndex(team => team.team.id === teamID);
     const teamInTopSix = teamIndex >= 0 && teamIndex < 6;

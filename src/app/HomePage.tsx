@@ -33,9 +33,6 @@ export default function HomePage(): JSX.Element {
 
     const isLoading = alLoading || nlLoading;
 
-    console.log('AL Teams', alStandings);
-    console.log('NL Team', nlStandings);
-
     if(isLoading){
         return (
             <div className="min-h-screen bg-[#041E42] flex items-center justify-center">

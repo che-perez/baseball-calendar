@@ -46,7 +46,7 @@ export function useMLBStandings(leagueId: number, divisionId: number | null = nu
                 if(divisionId) {
                     const division = data.records.find(div => div.division?.id === divisionId);
                     setStandings(division?.teamRecords || []);
-                  // Return National League Standings Array  
+                  // Return League Standings Array  
                 } else {
                     const teams: TeamRecord[] = [];
                     (data.records as DivisionRecord[]).forEach(div => {
