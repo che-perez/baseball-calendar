@@ -28,11 +28,7 @@ interface Series {
     opponentId: number;
     isHome: boolean;
     games: Game[];
-    venue: Venue;
-}
-
-interface Venue {
-    name: string;
+    venue: string;
 }
 
 interface SeriesBoxProps {
@@ -45,18 +41,18 @@ export default function SeriesBox({ series, teamID }: SeriesBoxProps): JSX.Eleme
 
     return (
         // Series Box
-        <li className="border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        <li className="bg-[#FDB462] border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             {/* Series Box Header */}
             <div className="text-white px-4 py-3 border-b-4 border-black" style={{ backgroundColor: teamColors.primary }}>
                 <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
-                        <TeamLogo teamId={series.opponentId} teamName={series.opponent} size="w-10 h-10" className="flex-shrink-0" />
+                        <TeamLogo teamId={series.opponentId} teamName={series.opponent} size="w-10 h-10" className="flex-shrink-0" onDark={true} />
                         <div className="flex-1 min-w-0">
                             <div className="tex-xl font-black tracking-tight truncate uppercase">
                                 <span>{series.isHome ? "vs" : "@"} {series.opponent}</span>
                             </div>
                             <div className="text-xs font-bold opacity-90 truncate uppercase">
-                                <span>{series.venue.name}</span>
+                                <span>{series.venue}</span>
                             </div>
                         </div>
                     </div>

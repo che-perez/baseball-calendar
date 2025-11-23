@@ -9,10 +9,6 @@ interface TeamData {
     score?: number;
 }
 
-interface Venue {
-    name?: string;
-}
-
 interface Game {
     gamePk: number;
     gameType: string;
@@ -26,7 +22,7 @@ interface Game {
         away: TeamData;
         home: TeamData;
     };
-    venue?: Venue;
+    venue: string;
 }
 
 interface DateEntry {

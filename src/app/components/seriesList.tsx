@@ -7,14 +7,16 @@ import SeriesBox from './SeriesBox';
 
 interface Game {
   gamePk: number;
-  gameDate: string;
+  officialDate: string;
   teams: {
     home: TeamData;
     away: TeamData;
   };
-  venue?: {
-    name: string;
-  };
+  venue: Venue;
+}
+
+interface Venue {
+  name: string
 }
 
 interface TeamData {
@@ -34,11 +36,12 @@ interface SeriesData {
 
 interface SeriesListProps {
   seriesList: SeriesData | null;
-  teamId: number
+  teamId: number;
 }
 
 export default function SeriesList({ seriesList, teamId }: SeriesListProps): JSX.Element | null {
     const seriesArr = groupGameBySeries(seriesList, teamId);
+    console.log('problem????',seriesArr);
  
   return (
     <>

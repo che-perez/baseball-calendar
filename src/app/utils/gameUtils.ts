@@ -1,18 +1,13 @@
 interface Game {
+    gamePk: number;
+    officialDate: string;
     teams: {
         home: TeamData;
         away: TeamData;
     };
-    status: {
-        statusCode?: string;
-        abstractGameState?: string;
-        detailedState?: string;
+    venue: {
+        name: string;
     }
-    venue?: Venue;
-}
-
-interface Venue {
-    name: string;
 }
 
 interface TeamData {
@@ -32,11 +27,11 @@ interface SeriesData {
 
 interface Series {
     opponent: string;
-    oppnentAbbr: string;
+    opponentAbbr: string;
     opponentId: number;
     isHome: boolean;
     games: Game[];
-    venue?: Venue;
+    venue: string;
 }
 
 export function isCurrTeamHomeTeam(game: Game, teamId: number): boolean {
@@ -63,11 +58,11 @@ export function groupGameBySeries(seriesData: SeriesData | null, teamId: number)
             if(!currSeries || currSeries.opponent !== oppoTeam.team.name || currSeries.isHome !== isHome) {
                 currSeries = {
                     opponent: oppoTeam.team.name,
-                    oppnentAbbr: oppoTeam.team.abbreviation,
+                    opponentAbbr: oppoTeam.team.abbreviation,
                     opponentId: oppoTeam.team.id,
                     isHome: isHome,
                     games: [],
-                    venue: game.venue
+                    venue: game.venue.name
                 };
                 seriesGroups.push(currSeries);
             }

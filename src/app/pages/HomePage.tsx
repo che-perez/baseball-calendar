@@ -1,9 +1,11 @@
+"use client"
+
 import React, { JSX } from "react";
 import { Link } from "react-router-dom";
-import { useMLBStandings } from "./utils/mlbHooks";
-import { MLB_LEAGUE_IDS, getTeamColors } from "./utils/mlbTeams";
-import TeamLogo from "./components/TeamLogo";
-import { currentYear } from "./utils/gameUtils";
+import { useMLBStandings } from "../utils/mlbHooks";
+import { MLB_LEAGUE_IDS, getTeamColors } from "../utils/mlbTeams";
+import TeamLogo from "../components/TeamLogo";
+import { currentYear } from "../utils/gameUtils";
 
 interface TeamRecord {
     team: {

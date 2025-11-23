@@ -2,37 +2,41 @@
 
 import React, { useState, useEffect, JSX } from "react";
 
-import { fetchMlbSeriesData } from "./utils/mlbAPI";
-import SeriesList from "./components/seriesList";
-import StatsPanel from "./components/StatsPanel";
-import TeamLogo from "./components/TeamLogo";
-import { currentYear } from "./utils/gameUtils";
+import { fetchMlbSeriesData } from "../utils/mlbAPI";
+import SeriesList from "../components/seriesList";
+import StatsPanel from "../components/StatsPanel";
+import TeamLogo from "../components/TeamLogo";
+import { currentYear } from "../utils/gameUtils";
 import { useParams } from "react-router-dom";
-import { getTeamColors } from "./utils/mlbTeams";
+import { getTeamColors } from "../utils/mlbTeams";
 
 
 interface SeriesData {
-  data: Array<{
-    games: Array<never>
+  dates: Array<{
+    games: Array<any>
   }>;
 }
-export default function Home(): JSX.Element {
-  const { id } = useParams();
-  const teamID = parseInt(id);
+
+type UserParams = {
+  id: string;
+}
+
+export default function TeamPage(): JSX.Element {
+  const { id } = useParams<UserParams>();
+  const teamID: number = parseInt(id!);
   const teamColors = getTeamColors(teamID);
 
   const [ seriesData, setSeriesData ] = useState<SeriesData | null>(null);
   const [ error, setError ] = useState<string | null>(null);
   const [ isLoading, setIsLoading ] = useState<boolean>(true);
-  const [ divisionId, setDivisionId ] = useState<number | null>(null);
-  const [ leagueId, setLeagueId ] = useState<number | null>(null);
-  const [ teamName, setTeamName ] = useState<string | null>(null);
-  const [ firstSeason, setFirstSeason ] = useState<number>(currentYear - 1);
+  const [ divisionId, setDivisionId ] = useState<number>(204);
+  const [ leagueId, setLeagueId ] = useState<number>(104);
+  const [ teamName, setTeamName ] = useState<string>("MLB Team Logo");
   const [ selectedSeason, setSelectedSeason ] = useState<number>(currentYear);
 
   useEffect(() => {
     fetchSeriesData();
-  }, [selectedSeason, id]);
+  }, [selectedSeason, teamID]);
 
   const fetchSeriesData = async (): Promise<void> => {
     try {
@@ -41,12 +45,11 @@ export default function Home(): JSX.Element {
 
       if(data.dates && data.dates.length > 0 && data.dates[0].games.length > 0) {
         const game = data.dates[0].games[0]; 
-        const team = game.teams.away.team.id == id ? game.teams.away.team : game.teams.home.team;
+        const team = game.teams.away.team.id === teamID ? game.teams.away.team : game.teams.home.team;
 
         setTeamName(team.name);
         setDivisionId(team.division.id);
         setLeagueId(team.league.id);
-        setFirstSeason(team.firstYearOfPlay);
       }
 
 
@@ -89,11 +92,11 @@ export default function Home(): JSX.Element {
                   </div>
                 </div>
                 <select value={selectedSeason} onChange={handleChange} className="w-36 bg-white border-4 border-black text-3xl font-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]">
-                  <div className="bg-white border-4 border-black max-h-[400px] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-                    {seasons.map((season) => (
-                      <option key={season} value={season} className="text-xl font-black cursor-pointer">{season}</option>
-                    ))}
-                  </div>
+                  {seasons.map((season) => (
+                    <option key={season} value={season} className="text-xl font-black cursor-pointerbg-white border-4 border-black max-h-[400px] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                      {season}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
