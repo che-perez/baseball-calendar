@@ -1,4 +1,4 @@
-import React, { JSX, useState } from "react";
+import React, { type JSX, useState } from "react";
 import { useMLBStandings } from "../utils/mlbHooks";
 
 import DivisionStandings from "./DivisionStanding";

@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import type { JSX } from "react";
 import TeamLogo from "./TeamLogo";
 import { getTeamColors } from "../utils/mlbTeams";
 

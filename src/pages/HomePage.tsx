@@ -1,6 +1,6 @@
 "use client"
 
-import React, { JSX } from "react";
+import { type JSX } from "react";
 import { Link } from "react-router-dom";
 import { useMLBStandings } from "../utils/mlbHooks";
 import { MLB_LEAGUE_IDS, getTeamColors } from "../utils/mlbTeams";

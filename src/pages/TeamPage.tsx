@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, JSX } from "react";
+import React, { useState, useEffect, type JSX } from "react";
 
 import { fetchMlbSeriesData } from "../utils/mlbAPI";
 import SeriesList from "../components/seriesList";
@@ -35,6 +35,7 @@ export default function TeamPage(): JSX.Element {
   const [ selectedSeason, setSelectedSeason ] = useState<number>(currentYear);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/immutability
     fetchSeriesData();
   }, [selectedSeason, teamID]);
 
