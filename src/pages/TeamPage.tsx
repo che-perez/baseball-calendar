@@ -7,8 +7,8 @@ import SeriesList from "../components/seriesList";
 import StatsPanel from "../components/StatsPanel";
 import TeamLogo from "../components/TeamLogo";
 import { currentYear } from "../utils/gameUtils";
-import { useParams } from "react-router-dom";
-import { getTeamColors } from "../utils/mlbTeams";
+import { Link, useParams } from "react-router-dom";
+import { MLB_TEAMS_IDS, getTeamColors } from "../utils/mlbTeams";
 
 
 interface SeriesData {
@@ -33,6 +33,9 @@ export default function TeamPage(): JSX.Element {
   const [ leagueId, setLeagueId ] = useState<number>(104);
   const [ teamName, setTeamName ] = useState<string>("MLB Team Logo");
   const [ selectedSeason, setSelectedSeason ] = useState<number>(currentYear);
+  
+  // Check if TeamID belongs to an actual MLB team
+  const teamExist = Object.values(MLB_TEAMS_IDS).some(id => id === teamID);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/immutability
@@ -66,6 +69,18 @@ export default function TeamPage(): JSX.Element {
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedSeason(parseInt(event.target.value));
+  }
+  
+  // Display if not a MLB Team
+  if(!teamExist) {
+        return (
+        <div className="min-h-screen bg-[#041E42] flex items-center justify-center">
+            <div className="text-center bg-white border-4 border-black p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+                <p className="text-black pb-5 font-black text-2xl uppercase">Team Not Found....</p>
+                <Link to="/" className="w-full p-2 mt-4 hover:text-white font-black text-sm uppercase border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-[#041E42] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all">Go Back to Home Page</Link>
+            </div>
+        </div>
+    )
   }
 
   if(isLoading || error) {
