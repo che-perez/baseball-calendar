@@ -1,6 +1,6 @@
 "use client"
 
-import { type JSX } from "react";
+import { type JSX, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMLBStandings } from "../utils/mlbHooks";
 import { MLB_LEAGUE_IDS, getTeamColors } from "../utils/mlbTeams";
@@ -33,6 +33,8 @@ export default function HomePage(): JSX.Element {
 
     const { standings: nlStandings, isLoading: nlLoading } = useMLBStandings(MLB_LEAGUE_IDS.NATIONAL_LEAGUE, null, currentYear);
 
+    const [activeTab, setActiveTab] = useState<"AL" | "NL">("AL");
+
     const isLoading = alLoading || nlLoading;
 
     if(isLoading){
@@ -54,7 +56,24 @@ export default function HomePage(): JSX.Element {
                 </div>
             </header>
             <div className="max-w-[1600px] mx-auto px-4 py-12">
-                <div className="grid lg:grid-cols-2 gap-8">
+                <div className="lg:hidden mb-6">
+                    <div className="flex gap-2 bg-white borde-4 border-black p-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                        <button onClick={() => setActiveTab("AL")} className={`flex-1 py-3 px-6 font-black uppercase text-lg border-4 border-black transition-all ${activeTab === "AL" ? "bg-[#BA0C2F] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]" : "bg-white text-black hover:bg-gray-100"}`}>
+                            American League
+                        </button>
+                        <button onClick={() => setActiveTab("NL")} className={`flex-1 py-3 px-6 font-black uppercase text-lg border-4 border-black transition-all ${activeTab === "NL" ? "bg-[#BA0C2F] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]" : "bg-white text-black hover:bg-gray-100"}`}>
+                            National League
+                        </button>
+                    </div>
+                    <div className="lg:hidden">
+                        {activeTab === "AL" ? (
+                            <LeagueColumn title="American League" teams={alStandings} />
+                        ) : (
+                            <LeagueColumn title="National League" teams={nlStandings} />
+                        )}
+                    </div>
+                </div>
+                <div className="hidden lg:grid lg:grid-cols-2 gap-8">
                     <LeagueColumn title="American League" teams={alStandings} />
                     <LeagueColumn title="National League" teams={nlStandings} />
                 </div>
@@ -90,15 +109,15 @@ function TeamRow({ team }: TeamRowProps) {
             <li className="flex items-center justify-between py-4 px-4 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]" style={{ backgroundColor: colors.primary }}>
                 <div className="flex items-center gap-4 flex-1 min-w-0">
                     <div className="bg-white border-3 border-black rounded-lg p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                        <TeamLogo teamId={team.team.id} teamName={team.team.name} size="w-8 h8" />
+                        <TeamLogo teamId={team.team.id} teamName={team.team.name} size="w-6 lg:w-8 h-6 lg:h8" />
                     </div>
                     <div className="flex-1 min-w-0">
-                        <h3 className="text-white text-xl font-black uppercase">{team.team.name}</h3>
+                        <h3 className="text-white text-sm md:text-lg lg:text-xl font-black uppercase">{team.team.name}</h3>
                         <p className="text-white/80 text-sm font-bold uppercase">Rank #{leagueRank}</p>
                     </div>
                 </div>
                 <div className="text-right bg-white border-4 border-black px-4 py-2 shadow-[3px_3px_0px_0px_rgba(0,0,0,1]">
-                    <div className="text-2xl font-black text-black whitespace-nowrap">{team.wins}-{team.losses}</div>
+                    <div className="text-lg lg:text-2xl font-black text-black whitespace-nowrap">{team.wins}-{team.losses}</div>
                     <div className="text-xs font-black text-black uppercase">{team.winningPercentage}</div>
                 </div>
             </li>
